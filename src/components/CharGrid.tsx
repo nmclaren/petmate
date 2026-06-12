@@ -118,12 +118,12 @@ export default class CharGrid extends Component<CharGridProps> {
          invalidate)
         :
         true
-    for (var y = 0; y < this.props.height; y++) {
+    for (let y = 0; y < this.props.height; y++) {
       const charRow = framebuf[y + srcY]
       if (!dstSrcChanged && charRow === prevProps!.framebuf[y + srcY]) {
         continue
       }
-      for (var x = 0; x < this.props.width; x++) {
+      for (let x = 0; x < this.props.width; x++) {
         const c = charRow[x + srcX]
         const img = this.font.getImage(c.code, c.color)
         ctx.putImageData(img, x*xScale, y*yScale)
@@ -160,10 +160,10 @@ export default class CharGrid extends Component<CharGridProps> {
 
     if (grid) {
       ctx.fillStyle = 'rgba(0,0,0,255)'
-      for (var y = 0; y < this.props.height; y++) {
+      for (let y = 0; y < this.props.height; y++) {
         ctx.fillRect(0, y*yScale+8, this.props.width*xScale, 1)
       }
-      for (var x = 0; x < this.props.width; x++) {
+      for (let x = 0; x < this.props.width; x++) {
         ctx.fillRect(x*xScale+8, 0, 1, this.props.height*yScale)
       }
     }

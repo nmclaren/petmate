@@ -123,7 +123,7 @@ function saveExecutablePRG(filename: string, fb: FramebufWithFont, options: File
     } = fb
 
     if (width !== 40 || height !== 25) {
-      throw 'Only 40x25 framebuffer widths are supported!'
+      throw new Error('Only 40x25 framebuffer widths are supported!')
     }
 
     // Custom font export chooses a more complex path that doesn't produce
@@ -131,7 +131,7 @@ function saveExecutablePRG(filename: string, fb: FramebufWithFont, options: File
     // path would support the same features as this template thingie,
     // but some apps like Marq's PETSCII support loading .PRG files
     // if the binary is exactly as converted below.
-    if (!(charset == 'upper' || charset == 'lower')) {
+    if (!(charset === 'upper' || charset === 'lower')) {
       exportC64jasmPRG(filename, fb, options);
       return;
     }
@@ -159,7 +159,7 @@ function saveExecutablePRG(filename: string, fb: FramebufWithFont, options: File
     const d021idx = buf.indexOf(Buffer.from([0x8d, 0x21, 0xd0]))
     buf[d021idx - 1] = backgroundColor
 
-    if (charset == CHARSET_LOWER) {
+    if (charset === CHARSET_LOWER) {
       // LDA #$14 -> LDA #$17
       const offs = buf.indexOf(Buffer.from([0x8d, 0x18, 0xd0]))
       buf[offs - 1] = 0x17;

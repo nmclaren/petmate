@@ -322,23 +322,24 @@ type ScreenDimsEditProps = {
 
 function ScreenDimsEdit (props: ScreenDimsProps & ScreenDimsEditProps) {
   const { width, height } = props.dims;
+  const { stopEditing, Toolbar } = props;
   const [dimsText, setDimsText] = useState(`${width}x${height}`);
 
   const handleBlur = useCallback(() => {
-    props.stopEditing();
-  }, []);
+    stopEditing();
+  }, [stopEditing]);
 
   const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    props.stopEditing();
+    stopEditing();
     const numsRe = /^([0-9]+)x([0-9]+)/;
     const matches = numsRe.exec(dimsText);
     if (matches) {
       const width = Math.max(1, Math.min(1024, parseInt(matches[1])));
       const height = Math.max(1, Math.min(1024, parseInt(matches[2])));
-      props.Toolbar.setNewScreenSize({ width, height });
+      Toolbar.setNewScreenSize({ width, height });
     }
-  }, [dimsText]);
+  }, [dimsText, stopEditing, Toolbar]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setDimsText(e.target.value);
@@ -346,15 +347,15 @@ function ScreenDimsEdit (props: ScreenDimsProps & ScreenDimsEditProps) {
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      props.stopEditing();
+      stopEditing();
     }
-  }, []);
+  }, [stopEditing]);
 
   const handleFocus = useCallback((e: React.FormEvent<HTMLInputElement>) => {
     let target = e.target as HTMLInputElement;
-    props.Toolbar.setShortcutsActive(false);
+    Toolbar.setShortcutsActive(false);
     target.select();
-  }, []);
+  }, [Toolbar]);
 
   return (
     <div className={styles.tabNameEditor}>
@@ -379,10 +380,11 @@ function ScreenDimsEdit (props: ScreenDimsProps & ScreenDimsEditProps) {
 
 function ScreenDims (props: ScreenDimsProps) {
   const [editing, setEditing] = useState(false);
+  const { Toolbar } = props;
   const stopEditing = useCallback(() => {
     setEditing(false);
-    props.Toolbar.setShortcutsActive(true);
-  }, []);
+    Toolbar.setShortcutsActive(true);
+  }, [Toolbar]);
   return (
     <div
       className={styles.screenDimContainer}

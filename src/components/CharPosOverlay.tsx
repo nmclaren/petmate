@@ -35,7 +35,7 @@ export default class CharPosOverlay extends Component<CharPosOverlayProps> {
   render () {
     const { charPos, grid, framebufWidth, framebufHeight, blink } = this.props
     const scale = grid ? 9 : 8
-    let alpha = this.props.opacity != undefined ? this.props.opacity : 0;
+    let alpha = this.props.opacity !== undefined ? this.props.opacity : 0;
     let outlineColor = `rgba(255, 255, 255, ${alpha})`
     if (this.props.color !== undefined) {
       outlineColor = this.props.color

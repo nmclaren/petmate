@@ -180,17 +180,17 @@ const framebufFields = (framebuf: Framebuf) => {
 const saveFramebufs = (fmt: FileFormat, filename: string, framebufs: FramebufWithFont[], fonts: customFonts.CustomFonts, palette: Rgb[]) => {
   const { selectedFramebufIndex } = fmt.commonExportParams;
   const selectedFramebuf = framebufs[selectedFramebufIndex];
-  if (fmt.ext == 'png') {
+  if (fmt.ext === 'png') {
     return savePNG(filename, selectedFramebuf, palette, fmt);
-  } else if (fmt.ext == 'seq') {
+  } else if (fmt.ext === 'seq') {
     return saveSEQ(filename, selectedFramebuf, fmt);
-  } else if (fmt.ext  == 'gif') {
+  } else if (fmt.ext  === 'gif') {
     return saveGIF(filename, framebufs, palette, fmt);
-  } else if (fmt.ext == 'c') {
+  } else if (fmt.ext === 'c') {
     return saveMarqC(filename, framebufs, fmt);
-  } else if (fmt.ext == 'asm') {
+  } else if (fmt.ext === 'asm') {
     return saveAsm(filename, framebufs, fmt);
-  } else if (fmt.ext == 'prg') {
+  } else if (fmt.ext === 'prg') {
     return saveExecutablePRG(filename, selectedFramebuf, fmt);
   } else if (fmt.ext === 'bas') {
     return saveBASIC(filename, framebufs, fmt);

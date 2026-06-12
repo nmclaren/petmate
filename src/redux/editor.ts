@@ -151,7 +151,7 @@ function setBrush(framebuf: Pixel[][], {row, col, brush}: SetBrushParams): Pixel
 }
 
 function rotateArr<T>(arr: T[], dir: -1 | 1) {
-  if (dir == -1) {
+  if (dir === -1) {
     return [...arr.slice(1, arr.length), arr[0]];
   }
   return [arr[arr.length-1], ...arr.slice(0, arr.length-1)];

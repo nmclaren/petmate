@@ -209,7 +209,7 @@ class SeqDecoder {
   decode(seqFile: any) {
     this.cls();
     for (let i = 0; i < seqFile.length; i++) {
-      this.chrout(seqFile[i], i == seqFile.length-1);
+      this.chrout(seqFile[i], i === seqFile.length-1);
     }
   }
 

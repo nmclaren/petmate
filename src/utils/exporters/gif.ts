@@ -56,7 +56,7 @@ export function saveGIF(filename: string, fbs: FramebufWithFont[], palette: RgbP
     encoder.pipe(file);
 
     encoder.writeHeader();
-    if (options.animMode !== 'anim' || fbs.length == 1) {
+    if (options.animMode !== 'anim' || fbs.length === 1) {
       exportGIF(selectedFb);
     } else {
       for (let fidx = 0; fidx < fbs.length; fidx++) {

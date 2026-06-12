@@ -378,7 +378,7 @@ class FramebufferView extends Component<FramebufferViewProps & FramebufferViewDi
   }
 
   handlePointerDown = (e: any) => {
-    if (this.props.selectedTool == Tool.PanZoom ||
+    if (this.props.selectedTool === Tool.PanZoom ||
       (this.props.selectedTool !== Tool.Text && this.props.spacebarKey)) {
       this.handlePanZoomPointerDown(e);
       return;
@@ -409,7 +409,7 @@ class FramebufferView extends Component<FramebufferViewProps & FramebufferViewDi
   }
 
   handlePointerUp = (e: PointerEvent) => {
-    if (this.props.selectedTool == Tool.PanZoom || this.panZoomDragging) {
+    if (this.props.selectedTool === Tool.PanZoom || this.panZoomDragging) {
       this.handlePanZoomPointerUp(e);
       return;
     }
@@ -424,7 +424,7 @@ class FramebufferView extends Component<FramebufferViewProps & FramebufferViewDi
   }
 
   handlePointerMove = (e: PointerEvent) => {
-    if (this.props.selectedTool == Tool.PanZoom ||
+    if (this.props.selectedTool === Tool.PanZoom ||
       (this.props.selectedTool !== Tool.Text && this.props.spacebarKey)) {
       this.handlePanZoomPointerMove(e);
       return;
@@ -532,7 +532,7 @@ class FramebufferView extends Component<FramebufferViewProps & FramebufferViewDi
 
   // Reset canvas scale transform to identity on double click.
   handleDoubleClick = () => {
-    if (this.props.selectedTool != Tool.PanZoom) {
+    if (this.props.selectedTool !== Tool.PanZoom) {
       return;
     }
     const prevUIState = this.props.framebufUIState;
@@ -543,7 +543,7 @@ class FramebufferView extends Component<FramebufferViewProps & FramebufferViewDi
   }
 
   handleWheel = (e: WheelEvent) => {
-    if (!(this.props.selectedTool == Tool.PanZoom ||
+    if (!(this.props.selectedTool === Tool.PanZoom ||
         (this.props.selectedTool !== Tool.Text && this.props.altKey))) {
       return;
     }
@@ -551,7 +551,7 @@ class FramebufferView extends Component<FramebufferViewProps & FramebufferViewDi
     if (!this.ref.current) {
       return;
     }
-    if (e.deltaY == 0) {
+    if (e.deltaY === 0) {
       return;
     }
     const wheelScale = 200.0;
@@ -762,7 +762,7 @@ function computeFramebufLayout(args: {
   let divWidth = canvasWidth * ws;
   let divHeight = canvasHeight * ws;
 
-  const fitWidth = args.canvasFit == 'fitWidth';
+  const fitWidth = args.canvasFit === 'fitWidth';
   if (fitWidth) {
     if (divHeight > maxHeight) {
       divHeight = maxHeight;
@@ -886,7 +886,7 @@ class Editor extends Component<EditorProps & EditorDispatch> {
     const scaleX = 1.8;
     const scaleY = scaleX;
     const fbContainerClass =
-      classNames(styles.fbContainer, this.props.selectedTool == Tool.PanZoom ? styles.panzoom : null);
+      classNames(styles.fbContainer, this.props.selectedTool === Tool.PanZoom ? styles.panzoom : null);
     return (
       <div
         className={styles.editorLayoutContainer}

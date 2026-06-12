@@ -61,7 +61,7 @@ function useCharPos(
         setCharPos(null);
       }
     }
-  }, [ref, charWidth, charHeight, setCharPos]);
+  }, [ref, charWidth, charHeight, setCharPos, isActive]);
 
   let onMouseEnter = useCallback(function() {
     setIsActive(true);
@@ -110,9 +110,10 @@ function CharSelectView(props: {
     screencode = utils.charScreencodeFromRowCol(props.font, charPos);
   }
 
+  const { onCharSelected } = props;
   let handleOnClick = useCallback(function() {
-    props.onCharSelected(charPos);
-  }, [charPos]);
+    onCharSelected(charPos);
+  }, [charPos, onCharSelected]);
 
   const customFonts = Object.entries(props.customFonts).map(([id, { name }]) => {
     return {

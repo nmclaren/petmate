@@ -356,7 +356,7 @@ class ExportModal_ extends Component<ExportModalProps & ExportModalDispatch, Exp
     this.props.Toolbar.setShowExport({show:false});
     const fmt = showExport.fmt!;
     const ext = fmt.ext;
-    if (fmt.exportOptions == undefined) {
+    if (fmt.exportOptions === undefined) {
       // We shouldn't be here if there are no export UI options
       return;
     }

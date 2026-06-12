@@ -51,9 +51,7 @@ export function loadMarqCFramebuf(filename: string, importFile: ImportDispatch) 
         str = str.substring(0, str.length - 1);
       }
       let arr = JSON.parse(`[${str}]`)
-      arr.forEach((byte: number) => {
-        bytes.push(byte)
-      })
+      bytes.push(...arr)
     }
 
     const framebufs = frames.map(frame => {
