@@ -314,7 +314,7 @@ export const executablePrgTemplate = loadAppFile('assets/template.prg')
 
 export function setWorkspaceFilenameWithTitle(setWorkspaceFilename: (fname: string) => void, filename: string) {
   setWorkspaceFilename(filename)
-  ipcRenderer.send('set-title', `Petmate - ${filename}`)
+  ipcRenderer.send('set-title', `Petmate - Ultimate Edition - ${filename}`)
 }
 
 type StoreDispatch = any;

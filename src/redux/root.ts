@@ -85,6 +85,8 @@ export const actions = {
             filename
           );
           electron.remote.app.addRecentDocument(filename);
+          // Update the in-app File/Recent menu (kept in the main process).
+          electron.ipcRenderer.send('add-recent-file', filename);
         } catch(e) {
           console.error(e)
           alert(`Failed to load workspace '${filename}'!`)

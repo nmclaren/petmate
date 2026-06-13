@@ -176,6 +176,7 @@ const actionCreators = {
   setSpacebarKey: (flag: boolean) => createAction('Toolbar/SET_SPACEBAR_KEY', flag),
   setShowSettings: (flag: boolean) => createAction('Toolbar/SET_SHOW_SETTINGS', flag),
   setShowCustomFonts: (flag: boolean) => createAction('Toolbar/SET_SHOW_CUSTOM_FONTS', flag),
+  setShowAbout: (flag: boolean) => createAction('Toolbar/SET_SHOW_ABOUT', flag),
   setShowExport: (show: {show:boolean, fmt?:FileFormat}) => createAction('Toolbar/SET_SHOW_EXPORT', show),
   setShowImport: (show: {show:boolean, fmt?:FileFormat}) => createAction('Toolbar/SET_SHOW_IMPORT', show),
   setSelectedPaletteRemap: (remapIdx: number) => createAction('Toolbar/SET_SELECTED_PALETTE_REMAP', remapIdx),
@@ -214,6 +215,7 @@ export class Toolbar {
           selectedTool,
           showSettings,
           showCustomFonts,
+          showAbout,
           showExport,
           showImport
         } = state.toolbar
@@ -224,7 +226,8 @@ export class Toolbar {
           state.toolbar.showExport.show ||
           state.toolbar.showImport.show ||
           state.toolbar.showSettings ||
-          state.toolbar.showCustomFonts;
+          state.toolbar.showCustomFonts ||
+          state.toolbar.showAbout;
 
         if (inModal) {
           // These shouldn't early exit this function since we check for other
@@ -235,6 +238,9 @@ export class Toolbar {
             }
             if (showCustomFonts) {
               dispatch(Toolbar.actions.setShowCustomFonts(false));
+            }
+            if (showAbout) {
+              dispatch(Toolbar.actions.setShowAbout(false));
             }
             if (showExport) {
               dispatch(Toolbar.actions.setShowExport({show:false}));
@@ -546,6 +552,7 @@ export class Toolbar {
       spacebarKey: false,
       showSettings: false,
       showCustomFonts: false,
+      showAbout: false,
       showExport: { show: false },
       showImport: { show: false },
       selectedPaletteRemap: 0,
@@ -673,6 +680,8 @@ export class Toolbar {
         return updateField(state, 'showSettings', action.data);
       case 'Toolbar/SET_SHOW_CUSTOM_FONTS':
         return updateField(state, 'showCustomFonts', action.data);
+      case 'Toolbar/SET_SHOW_ABOUT':
+        return updateField(state, 'showAbout', action.data);
       case 'Toolbar/SET_SHOW_EXPORT':
         return updateField(state, 'showExport', action.data);
       case 'Toolbar/SET_SHOW_IMPORT':

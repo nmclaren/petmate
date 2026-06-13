@@ -115,6 +115,7 @@ export interface Toolbar {
   spacebarKey: boolean;
   showSettings: boolean;
   showCustomFonts: boolean;
+  showAbout: boolean;
   showExport: { show: boolean, fmt?: FileFormat}; // fmt undefined only when show=false
   showImport: { show: boolean, fmt?: FileFormat}; // fmt undefined only when show=false
   selectedPaletteRemap: number;

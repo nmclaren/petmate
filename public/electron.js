@@ -18,9 +18,37 @@ if (process.platform == 'darwin') {
 }
 
 const path = require('path');
+const fs = require('fs');
 
 let appClosing = false;
 let mainWindow;
+let menuBuilder;
+
+// In-app File/Recent menu state, persisted across runs in the user data dir.
+const MAX_RECENT_FILES = 5;
+let recentFiles = [];
+
+const recentFilesPath = () => path.join(app.getPath('userData'), 'RecentFiles.json');
+
+function loadRecentFiles() {
+    try {
+        const files = JSON.parse(fs.readFileSync(recentFilesPath(), 'utf-8'));
+        if (Array.isArray(files)) {
+            recentFiles = files.filter(f => typeof f === 'string').slice(0, MAX_RECENT_FILES);
+        }
+    } catch (e) {
+        // Missing or corrupt file: start with an empty list.
+        recentFiles = [];
+    }
+}
+
+function saveRecentFiles() {
+    try {
+        fs.writeFileSync(recentFilesPath(), JSON.stringify(recentFiles), 'utf-8');
+    } catch (e) {
+        console.error('Failed to save recent files list', e);
+    }
+}
 
 createWindow = () => {
     mainWindow = new BrowserWindow({
@@ -42,7 +70,7 @@ createWindow = () => {
     mainWindow.on('page-title-updated', (event, message) => {
         event.preventDefault()
     })
-    mainWindow.setTitle('Petmate')
+    mainWindow.setTitle('Petmate - Ultimate Edition')
 
     mainWindow.loadURL(
         !app.isPackaged
@@ -92,8 +120,20 @@ app.on("open-file", (event, file) => {
 app.on('ready', () => {
     createWindow();
 
-    const menuBuilder = new MenuBuilder(mainWindow);
+    loadRecentFiles();
+    menuBuilder = new MenuBuilder(mainWindow, recentFiles);
     menuBuilder.buildMenu();
+});
+
+// Sent by the renderer when a workspace file was successfully opened.
+// Move (or insert) the file to the top of the File/Recent menu.
+ipcMain.on('add-recent-file', (event, filename) => {
+    recentFiles = [filename, ...recentFiles.filter(f => f !== filename)].slice(0, MAX_RECENT_FILES);
+    saveRecentFiles();
+    if (menuBuilder) {
+        menuBuilder.recentFiles = recentFiles;
+        menuBuilder.buildMenu();
+    }
 });
 
 app.on('window-all-closed', () => {

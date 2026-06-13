@@ -21,8 +21,9 @@ const exporters = [
 ]
 
 module.exports = class MenuBuilder {
-  constructor(mainWindow) {
+  constructor(mainWindow, recentFiles) {
     this.mainWindow = mainWindow;
+    this.recentFiles = recentFiles || [];
   }
 
   sendMenuCommand (msg) {
@@ -61,6 +62,19 @@ module.exports = class MenuBuilder {
     }
   }
 
+  mkRecentSubmenu () {
+    if (this.recentFiles.length === 0) {
+      return [{ label: 'No Recent Files', enabled: false }];
+    }
+    return this.recentFiles.map(filename => ({
+      label: filename,
+      click: () => {
+        // Renderer already handles this message for Finder/Explorer opens.
+        this.mainWindow.webContents.send('open-petmate-file', filename);
+      }
+    }));
+  }
+
   setupDevelopmentEnvironment() {
     this.mainWindow.webContents.on('context-menu', (e, props) => {
       const { x, y } = props;
@@ -78,11 +92,13 @@ module.exports = class MenuBuilder {
 
   buildDarwinTemplate() {
     const subMenuAbout = {
-      label: 'Petmate',
+      label: 'Petmate - Ultimate Edition',
       submenu: [
         {
-          label: 'About Petmate',
-          selector: 'orderFrontStandardAboutPanel:'
+          label: 'About Petmate - Ultimate Edition',
+          click: () => {
+            this.sendMenuCommand('about');
+          }
         },
         { type: 'separator' },
         { label: 'Preferences...',
@@ -93,7 +109,7 @@ module.exports = class MenuBuilder {
         },
         { type: 'separator' },
         {
-          label: 'Hide Petmate',
+          label: 'Hide Petmate - Ultimate Edition',
           accelerator: 'Command+H',
           selector: 'hide:'
         },
@@ -131,6 +147,9 @@ module.exports = class MenuBuilder {
           click: () => {
             this.sendMenuCommand('open');
           }
+        },
+        { label: 'Recent',
+          submenu: this.mkRecentSubmenu()
         },
         { type: 'separator' },
         { label: 'Save', accelerator: 'Command+S',
@@ -292,6 +311,9 @@ module.exports = class MenuBuilder {
               this.sendMenuCommand('open');
             }
           },
+          { label: 'Recent',
+            submenu: this.mkRecentSubmenu()
+          },
           { type: 'separator' },
           { label: '&Save', accelerator: 'Ctrl+S',
             click: () => {
@@ -428,13 +450,8 @@ module.exports = class MenuBuilder {
           { type: 'separator' },
           {
             label: 'About',
-            click() {
-              app.setAboutPanelOptions({
-                applicationName: app.name,
-                applicationVersion: app.getVersion(),
-                copyright: "Copyright (c) 2018-2020, Janne Hellsten",
-              });
-              app.showAboutPanel();
+            click: () => {
+              this.sendMenuCommand('about');
             }
           },
         ]

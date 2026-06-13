@@ -14,7 +14,7 @@
     "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "start": "concurrently --kill-others \"cross-env BROWSER=none NODE_OPTIONS=--openssl-legacy-provider yarn react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
     "debug": "concurrently --kill-others \"cross-env BROWSER=none NODE_OPTIONS=--openssl-legacy-provider yarn react-scripts start\" \"wait-on http://localhost:3000 && electron --remote-debugging-port=9223 .\"",
-    "dist-macos": "npx electron-builder --x64 --arm64 --macos --c.extraMetadata.main=build/electron.js -p never",
+    "dist-macos": "npx electron-builder --universal --macos --c.extraMetadata.main=build/electron.js -p never",
     "dist-win": "npx electron-builder --x64 --win --c.extraMetadata.main=build/electron.js -p never",
     "dist-linux": "npx electron-builder --x64 --linux --c.extraMetadata.main=build/electron.js -p never"
   },
@@ -61,7 +61,7 @@
   "build": {
     "appId": "com.nurpax.petmate",
     "compression": "normal",
-    "productName": "Petmate",
+    "productName": "Petmate - Ultimate Edition",
     "directories": {
       "buildResources": "build",
       "output": "dist"

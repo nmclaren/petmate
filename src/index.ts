@@ -172,6 +172,9 @@ electron.ipcRenderer.on('menu', (_event: Event, message: string) => {
     case 'custom-fonts':
       store.dispatch(Toolbar.actions.setShowCustomFonts(true))
       return
+    case 'about':
+      store.dispatch(Toolbar.actions.setShowAbout(true))
+      return
     default:
       console.warn('unknown message from main process', message)
   }
